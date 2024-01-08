@@ -4,7 +4,11 @@ validateBoardData = async (req, res, next) => {
   // Định nghĩa schema cho dữ liệu gửi lên
   const boardValidationSchema = Joi.object({
     title: Joi.string().required().min(3).max(50).trim().strict(),
-    cover: Joi.string()
+    cover: Joi.object({
+      data: Joi.binary().required(),
+      mimetype: Joi.string().required(),
+      originalname: Joi.string().required()
+    })
   })
 
   try {

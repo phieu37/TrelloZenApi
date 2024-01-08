@@ -6,8 +6,15 @@ const boardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  // cover: {
+  //   data: Buffer,
+  //   originalname: String,
+  //   mimetype: String
+  // },
   cover: {
-    type: String
+    data: String,
+    originalname: String,
+    mimetype: String
   },
   lists: [{
     type: mongoose.Schema.Types.ObjectId,

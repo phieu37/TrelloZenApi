@@ -3,12 +3,17 @@ const boardService = require('../services/boardService')
 class boardController {
   createBoard = async (req, res, next) => {
     try {
-      const { title,cover } = req.body
-      // Chuyển file thành base64
-      // const cover = req.file.buffer.toString('base64') 
+      const { title } = req.body
+      const cover = {
+        // data: req.file.buffer,
+        data : req.file.buffer.toString('base64'),
+        mimetype: req.file.mimetype,
+        originalname: req.file.originalname
+      }
+
       const boardData = { title, cover }
       const newBoard = await boardService.createBoard(boardData)
-      
+
       res.status(201).json({
         message: 'Tạo board và load file thành công',
         board: newBoard
@@ -22,7 +27,12 @@ class boardController {
     try {
       const boardId = req.params.id
       const { title } = req.body
-      // const cover = req.file.buffer.toString('base64') 
+      const cover = {
+        // data: req.file.buffer,
+        data : req.file.buffer.toString('base64'),
+        mimetype: req.file.mimetype,
+        originalname: req.file.originalname
+      }
       const boardData = { title, cover }
       const updatedBoard = await boardService.updateBoard(boardId, boardData)
 
