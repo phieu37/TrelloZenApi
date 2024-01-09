@@ -1,4 +1,5 @@
 const boardModel = require('../models/boardModel')
+const listModel = require('../models/listModel')
 
 class boardService {
   createBoard = async (boardData) => {
@@ -21,13 +22,15 @@ class boardService {
 
   deleteBoard = async (boardId) => {
     try {
-      return await boardModel.findByIdAndDelete(boardId)
+      await boardModel.findByIdAndDelete(boardId)
+      await listModel.deleteMany({ board: boardId })
+      return true
     } catch (error) {
       throw error
     }
   }
 
-  getAllBoards = async () => {
+  getAllBoard = async () => {
     try {
       return await boardModel.find()
     } catch (error) {

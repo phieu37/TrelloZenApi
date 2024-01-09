@@ -6,20 +6,22 @@ const boardSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // cover: {
-  //   data: Buffer,
-  //   originalname: String,
-  //   mimetype: String
-  // },
   cover: {
-    data: String,
+    data: Buffer,
     originalname: String,
     mimetype: String
   },
-  lists: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'List'
-  }]
+  // cover: {
+  //   data: String,
+  //   originalname: String,
+  //   mimetype: String
+  // },
+  lists: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'List'
+    }
+  ]
 }, { timestamps: true })
 
 module.exports = mongoose.model('Board', boardSchema)
