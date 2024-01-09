@@ -5,8 +5,8 @@ class boardController {
     try {
       const { title } = req.body
       const cover = {
-        // data: req.file.buffer,
-        data : req.file.buffer.toString('base64'),
+        data: req.file.buffer,
+        // data : req.file.buffer.toString('base64'),
         mimetype: req.file.mimetype,
         originalname: req.file.originalname
       }
@@ -28,8 +28,8 @@ class boardController {
       const boardId = req.params.id
       const { title } = req.body
       const cover = {
-        // data: req.file.buffer,
-        data : req.file.buffer.toString('base64'),
+        data: req.file.buffer,
+        // data : req.file.buffer.toString('base64'),
         mimetype: req.file.mimetype,
         originalname: req.file.originalname
       }
@@ -56,9 +56,9 @@ class boardController {
     }
   }
 
-  getAllBoards = async (req, res, next) => {
+  getAllBoard = async (req, res, next) => {
     try {
-      const boards = await boardService.getAllBoards()
+      const boards = await boardService.getAllBoard()
 
       res.status(200).json({
         message: 'Danh sách board',
