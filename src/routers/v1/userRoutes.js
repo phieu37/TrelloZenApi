@@ -7,6 +7,6 @@ const userController = require('../../controllers/userController')
 router.get('/', verifyToken, userController.getAllUsers)
 
 // delete user by Admin
-router.delete("/:id", verifyTokenAdmin, userController.deleteUser);
+router.delete("/:id", verifyTokenAdmin, userController.deleteUser)
 
 module.exports = router

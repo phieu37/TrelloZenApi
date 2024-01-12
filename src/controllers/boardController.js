@@ -4,12 +4,20 @@ class boardController {
   createBoard = async (req, res, next) => {
     try {
       const { title } = req.body
-      const cover = {
-        data: req.file.buffer,
-        // data : req.file.buffer.toString('base64'),
-        mimetype: req.file.mimetype,
-        originalname: req.file.originalname
-      }
+      // const cover = {
+      //   // C2 MemoryStorage
+      //   // data: req.file.buffer, 
+      //   // C1 DiskStorage
+      //   data: req.file.filename,
+      //   mimetype: req.file.mimetype,
+      //   originalname: req.file.originalname
+      // }
+
+      const cover = req.files['cover'] ? {
+        data: req.files['cover'][0].filename,
+        mimetype: req.files['cover'][0].mimetype,
+        originalname: req.files['cover'][0].originalname
+      } : null
 
       const boardData = { title, cover }
       const newBoard = await boardService.createBoard(boardData)
@@ -25,14 +33,14 @@ class boardController {
 
   updateBoard = async (req, res, next) => {
     try {
-      const boardId = req.params.id
+      // const boardId = req.params.id
+      const { boardId } = req.params
       const { title } = req.body
-      const cover = {
-        data: req.file.buffer,
-        // data : req.file.buffer.toString('base64'),
-        mimetype: req.file.mimetype,
-        originalname: req.file.originalname
-      }
+      const cover = req.files['cover'] ? {
+        data: req.files['cover'][0].filename,
+        mimetype: req.files['cover'][0].mimetype,
+        originalname: req.files['cover'][0].originalname
+      } : null
       const boardData = { title, cover }
       const updatedBoard = await boardService.updateBoard(boardId, boardData)
 
@@ -47,7 +55,7 @@ class boardController {
 
   deleteBoard = async (req, res, next) => {
     try {
-      const boardId = req.params.id
+      const { boardId } = req.params
       await boardService.deleteBoard(boardId)
 
       res.status(200).json({ message: 'Xóa board thành công' })

@@ -1,31 +1,58 @@
-// C1: đẩy file ổ đĩa
+// C1: đẩy file ổ đĩa (DiskStorage) -> nên dùng (đang lỗi khi dùng 2 ổ 1 thì ok)
 // const multer = require('multer')
-// // const path = require('path')
 
-// // Cấu hình multer để lưu trữ tệp tin cover
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, 'public/uploads')
-//   },
-//   filename: function (req, file, cb) {
-//     // cb(null, Date.now() + path.extname(file.originalname))
-//     cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname)
+// const coverStorage = multer.diskStorage({
+//   destination: 'public/uploadCovers',
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname)
+//   }
+// })
+
+// const attachmentsStorage = multer.diskStorage({
+//   destination: 'public/uploadAttachments',
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname)
 //   },
 // })
 
+// const uploadCover = multer({ storage: coverStorage }).single('cover')
+// const uploadAttachments = multer({ storage: attachmentsStorage }).array('attachments', 3)
+
+// module.exports = {
+//   uploadCover,
+//   uploadAttachments
+// }
+
+// C2: đẩy file (MemoryStorage) -> cứt lag máy
+// const multer = require('multer')
+
+// const storage = multer.memoryStorage()
 // const upload = multer({ storage: storage })
 
-// // Middleware để xử lý việc upload cover
-// const uploadCover = upload.single('file')
-// // 
+// const uploadCover = upload.single('cover')
+
 // module.exports = uploadCover
 
-// C2: đẩy file lên DB
+// Phải tự tạo thư mục trước
 const multer = require('multer')
 
-const storage = multer.memoryStorage()
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (file.fieldname === 'cover') {
+      cb(null, 'public/cover')
+    } else if (file.fieldname === 'attachments') {
+      cb(null, 'public/attachments')
+    }
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
+  }
+})
+
 const upload = multer({ storage: storage })
+const cpUpload = upload.fields([
+  { name: 'cover', maxCount: 1 },
+  { name: 'attachments', maxCount: 3 }
+])
 
-const uploadCover = upload.single('file')
-
-module.exports = uploadCover
+module.exports = cpUpload

@@ -1,5 +1,6 @@
 const boardModel = require('../models/boardModel')
 const listModel = require('../models/listModel')
+const cardModel = require('../models/cardModel')
 
 class boardService {
   createBoard = async (boardData) => {
@@ -24,6 +25,8 @@ class boardService {
     try {
       await boardModel.findByIdAndDelete(boardId)
       await listModel.deleteMany({ board: boardId })
+      await cardModel.deleteMany({ card: cardId })
+      
       return true
     } catch (error) {
       throw error

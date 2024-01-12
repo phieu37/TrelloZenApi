@@ -14,7 +14,7 @@ const validateBoardData = async (req, res, next) => {
 
   try {
     // Kiểm tra và xác thực dữ liệu đầu vào trước khi chuyển nó đến controller
-    await boardValidationSchema.validate(req.body, { abortEarly: false })
+    await boardValidationSchema.validateAsync(req.body, { abortEarly: false })
     next()
   } catch (error) {
     next(error)
@@ -36,7 +36,35 @@ const validateListData = async (req, res, next) => {
   }
 }
 
+// card
+const validateCardData = async (req, res, next) => {
+  const cardValidationSchema = Joi.object({
+    title: Joi.string().required().min(3).max(50).trim().strict(),
+    description: Joi.string().required().min(3).max(1000).trim().strict(),
+    members: Joi.array().items(Joi.string()),
+    dueDate: Joi.string(),
+    cover: Joi.object({
+      data: Joi.binary(),
+      originalname: Joi.string(),
+      mimetype: Joi.string()
+    }),
+    attachments: Joi.array().items(Joi.object({
+      data: Joi.binary(),
+      originalname: Joi.string(),
+      mimetype: Joi.string()
+    }))
+  })
+
+  try {
+    await cardValidationSchema.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   validateBoardData,
-  validateListData
+  validateListData,
+  validateCardData
 }
