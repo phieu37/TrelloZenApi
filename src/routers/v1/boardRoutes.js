@@ -2,11 +2,27 @@ const express = require('express')
 const router = express.Router()
 const boardController = require('../../controllers/boardController')
 const validateData = require('../../validators/validateData')
-const uploadCover = require('../../middlewares/uploadMiddleware')
+const cpUpload = require('../../middlewares/uploadMiddleware')
 
-router.post('/', validateData.validateBoardData, uploadCover, boardController.createBoard)
-router.put('/:id', validateData.validateBoardData, uploadCover, boardController.updateBoard)
-router.delete('/:id', validateData.validateBoardData, boardController.deleteBoard)
-router.get('/', validateData.validateBoardData, boardController.getAllBoard)
+router.post(
+  '/',
+  cpUpload,
+  validateData.validateBoardData,
+  boardController.createBoard
+)
+router.put(
+  '/:boardId',
+  cpUpload,
+  validateData.validateBoardData,
+  boardController.updateBoard
+)
+router.delete(
+  '/:boardId',
+  boardController.deleteBoard
+)
+router.get(
+  '/',
+  boardController.getAllBoard
+)
 
 module.exports = router

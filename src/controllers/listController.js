@@ -4,8 +4,8 @@ class listController {
   createList = async (req, res, next) => {
     try {
       // const { boardId, title, position } = req.body
-      const { title, position } = req.body
       const { boardId } = req.params
+      const { title, position } = req.body
       const newList = await listService.createList(boardId, title, position)
 
       res.status(201).json({

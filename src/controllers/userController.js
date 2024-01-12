@@ -18,10 +18,10 @@ class userController {
   deleteUser = async (req, res, next) => {
     try {
       // lấy id
-      const idUser = req.params.id
+      const userId = req.params
 
       // gọi đến service
-      const deleteUser = await userService.deleteUser(idUser)
+      const deleteUser = await userService.deleteUser(userId)
 
       res.status(200).json({
         msg: 'Xóa user thành công',

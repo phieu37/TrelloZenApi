@@ -12,10 +12,10 @@ class userService {
     }
   }
 
-  deleteUser = async (idUser) => {
+  deleteUser = async (userId) => {
     try {
       // gọi đến tầng model
-      const deleteUser = await userModel.findByIdAndDelete(idUser)
+      const deleteUser = await userModel.findByIdAndDelete(userId)
 
       return deleteUser
     } catch (error) {

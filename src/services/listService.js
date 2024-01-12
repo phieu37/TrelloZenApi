@@ -1,4 +1,3 @@
-
 const listModel = require('../models/listModel')
 const boardModel = require('../models/boardModel')
 
@@ -7,9 +6,9 @@ class listService {
     try {
       const newList = new listModel(
         {
-          board: boardId,
           title,
-          position
+          position,
+          board: boardId
         }
       )
       const savedList = await newList.save()
@@ -67,7 +66,7 @@ class listService {
 
   getListsInBoard = async (boardId) => {
     try {
-      const lists = await listModel.find({ board: boardId })
+      const lists = await listModel.find({ board: boardId }).sort({ position: -1 })
 
       return lists
     } catch (error) {
