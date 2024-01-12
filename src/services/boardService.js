@@ -6,7 +6,7 @@ class boardService {
   createBoard = async (boardData) => {
     try {
       const newBoard = new boardModel(boardData)
-      
+
       return await newBoard.save()
     } catch (error) {
       throw error
@@ -23,10 +23,17 @@ class boardService {
 
   deleteBoard = async (boardId) => {
     try {
+      // Tìm danh sách list thuộc về board, chỉ lấy ra trường _id để giảm dung lượng trả về
+      const listsOfBoard = await listModel.find({ board: boardId }, '_id')
+      // lấy ra mảng chứa các _id
+      const listIds = listsOfBoard.map(list => list._id)
+      // $in lọc và xóa tất cả card có trường list thuộc về một trong các list có _id trong mảng listIds
+      await cardModel.deleteMany({ list: { $in: listIds } })
+      // Xóa bảng
       await boardModel.findByIdAndDelete(boardId)
+      // Xóa tất cả các danh sách thuộc về bảng
       await listModel.deleteMany({ board: boardId })
-      await cardModel.deleteMany({ card: cardId })
-      
+
       return true
     } catch (error) {
       throw error

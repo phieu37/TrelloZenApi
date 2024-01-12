@@ -1,5 +1,6 @@
 const listModel = require('../models/listModel')
 const boardModel = require('../models/boardModel')
+const cardModel = require('../models/cardModel')
 
 class listService {
   createList = async (boardId, title, position) => {
@@ -46,6 +47,7 @@ class listService {
     try {
       const listInBoardToDelete = await listModel.findById(listId)
       await listModel.findByIdAndDelete(listId)
+      await cardModel.deleteMany({ list: listId })
 
       // tồn tại list và nằm trong board, thì cập nhật lại mảng lists trong Board
       if (listInBoardToDelete && listInBoardToDelete.board) {

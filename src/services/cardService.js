@@ -65,12 +65,23 @@ class CardService {
 
   deleteCard = async (cardId) => {
     try {
+      const cardInListToDelete = await cardModel.findById(cardId)
       await cardModel.findByIdAndDelete(cardId)
+
+      // tồn tại card và nằm trong list, thì cập nhật lại mảng cards trong list
+      if (cardInListToDelete && cardInListToDelete.list) {
+        await listModel.findByIdAndUpdate(
+          cardInListToDelete.list,
+          {
+            $pull: {
+              cards: cardId
+            }
+          })
+      }
     } catch (error) {
       throw error
     }
   }
-
 
   getCardsInList = async (listId) => {
     try {

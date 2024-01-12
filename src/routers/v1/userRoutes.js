@@ -4,9 +4,17 @@ const { verifyToken, verifyTokenAdmin } = require('../../middlewares/verifyToken
 const userController = require('../../controllers/userController')
 
 // get all user
-router.get('/', verifyToken, userController.getAllUsers)
+router.get(
+  '/',
+  verifyToken,
+  userController.getAllUsers
+)
 
 // delete user by Admin
-router.delete("/:id", verifyTokenAdmin, userController.deleteUser)
+router.delete(
+  '/:userId',
+  verifyTokenAdmin,
+  userController.deleteUser
+)
 
 module.exports = router

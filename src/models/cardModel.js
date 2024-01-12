@@ -33,6 +33,10 @@ const cardSchema = new mongoose.Schema({
   list: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'List'
+  },
+  board: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Board'
   }
 }, { timestamps: true })
 

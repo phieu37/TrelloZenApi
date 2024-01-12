@@ -11,11 +11,6 @@ const boardSchema = new mongoose.Schema({
     originalname: String,
     mimetype: String
   },
-  // cover: {
-  //   data: String,
-  //   originalname: String,
-  //   mimetype: String
-  // },
   lists: [
     {
       type: mongoose.Schema.Types.ObjectId,

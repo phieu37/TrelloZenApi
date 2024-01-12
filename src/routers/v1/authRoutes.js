@@ -3,8 +3,14 @@ const router = express.Router()
 const authController = require('../../controllers/authController')
 
 // Đăng ký
-router.post('/register', authController.register)
+router.post(
+  '/register',
+  authController.register
+)
 // Đăng nhập
-router.post('/login', authController.login)
+router.post(
+  '/login',
+  authController.login
+)
 
 module.exports = router

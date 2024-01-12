@@ -14,7 +14,6 @@ class userService {
 
   deleteUser = async (userId) => {
     try {
-      // gọi đến tầng model
       const deleteUser = await userModel.findByIdAndDelete(userId)
 
       return deleteUser
