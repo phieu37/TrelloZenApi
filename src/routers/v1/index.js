@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const authRouter = require('./authRoutes')
+// const authRouter = require('./authRoutes')
 const userRouter = require('./userRoutes')
 const boardRouter = require('./boardRoutes')
 const listRouter = require('./listRoutes')
@@ -11,7 +11,7 @@ router.get('/status', (req, res) => {
 })
 
 // register/login
-router.use('/auth', authRouter)
+// router.use('/auth', authRouter)
 
 // actions user
 router.use('/user', userRouter)

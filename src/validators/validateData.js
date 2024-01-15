@@ -1,8 +1,25 @@
 const Joi = require('joi')
 
+// User
+const validateUserData = async (req, res, next) => {
+  // Định nghĩa schema cho dữ liệu gửi lên
+  const userValidationSchema = Joi.object({
+    username: Joi.string().required().min(3).max(30).trim().strict(),
+    email: Joi.string().email().trim().strict(),
+    password: Joi.string().required().min(6).trim().strict()
+  })
+
+  try {
+    // Kiểm tra và xác thực dữ liệu đầu vào trước khi chuyển nó đến controller
+    await userValidationSchema.validateAsync(req.body, { abortEarly: false })
+    next()
+  } catch (error) {
+    next(error)
+  }
+}
+
 // Board
 const validateBoardData = async (req, res, next) => {
-  // Định nghĩa schema cho dữ liệu gửi lên
   const boardValidationSchema = Joi.object({
     title: Joi.string().required().min(3).max(50).trim().strict(),
     cover: Joi.object({
@@ -13,7 +30,6 @@ const validateBoardData = async (req, res, next) => {
   })
 
   try {
-    // Kiểm tra và xác thực dữ liệu đầu vào trước khi chuyển nó đến controller
     await boardValidationSchema.validateAsync(req.body, { abortEarly: false })
     next()
   } catch (error) {
@@ -64,6 +80,7 @@ const validateCardData = async (req, res, next) => {
 }
 
 module.exports = {
+  validateUserData,
   validateBoardData,
   validateListData,
   validateCardData
