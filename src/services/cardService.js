@@ -14,30 +14,27 @@ class CardService {
           return user?._id
         })
       )
-      const newCard = new cardModel(
-        {
-          title,
-          description,
-          members: membersObjectIds,
-          dueDate,
-          list: listId,
-          cover,
-          attachments
-        }
-      )
-      const saveCard = await newCard.save()
+      const newCard = await cardModel.create({
+        title,
+        description,
+        members: membersObjectIds,
+        dueDate,
+        list: listId,
+        cover,
+        attachments
+      })
 
       // Thêm id của card mới vào mảng cards trong List
       await listModel.findByIdAndUpdate(
         listId,
         {
           $push: {
-            cards: saveCard._id
+            cards: newCard._id
           }
         }
       )
 
-      return saveCard
+      return newCard
     } catch (error) {
       throw error
     }
@@ -54,7 +51,8 @@ class CardService {
           dueDate,
           cover,
           attachments,
-        }
+        },
+        { new: true } // Tùy chọn này để trả về bản ghi đã được cập nhật
       )
 
       return updatedCard

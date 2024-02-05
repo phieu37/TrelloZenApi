@@ -5,9 +5,7 @@ const cardModel = require('../models/cardModel')
 class boardService {
   createBoard = async (boardData) => {
     try {
-      const newBoard = new boardModel(boardData)
-
-      return await newBoard.save()
+      return await boardModel.create(boardData)
     } catch (error) {
       throw error
     }
@@ -15,7 +13,9 @@ class boardService {
 
   updateBoard = async (boardId, boardData) => {
     try {
-      return await boardModel.findByIdAndUpdate(boardId, boardData)
+      const updatedBoard = await boardModel.findByIdAndUpdate(boardId, boardData, { new: true })
+
+      return updatedBoard
     } catch (error) {
       throw error
     }

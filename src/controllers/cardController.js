@@ -5,31 +5,8 @@ class CardController {
     try {
       const { listId } = req.params
       const { title, description, members, dueDate } = req.body
-
-      // const cover = {
-      //   data: req.file.filename,
-      //   mimetype: req.file.mimetype,
-      //   originalname: req.file.originalname
-      // }
-      // // const attachments = req.files.map(file => ({
-      //   const attachments = (req.files ?? []).map(file => ({
-      //   data: file.filename,
-      //   mimetype: file.mimetype,
-      //   originalname: file.originalname
-      // }))
-
-      const cover = req.files['cover'] ? {
-        data: req.files['cover'][0].filename,
-        mimetype: req.files['cover'][0].mimetype,
-        originalname: req.files['cover'][0].originalname,
-      } : null
-
-      const attachments = req.files['attachments']?.map((file) => ({
-        data: file.filename,
-        mimetype: file.mimetype,
-        originalname: file.originalname
-      })) || []
-
+      const cover = req.files['cover'] ? req.files['cover'][0] : null
+      const attachments = req.files['attachments'] || []
       const newCard = await cardService.createCard(
         title, description, members, dueDate, listId, cover, attachments
       )
@@ -47,16 +24,8 @@ class CardController {
     try {
       const { cardId } = req.params
       const { title, description, members, dueDate } = req.body
-      const cover = req.files['cover'] ? {
-        data: req.files['cover'][0].filename,
-        mimetype: req.files['cover'][0].mimetype,
-        originalname: req.files['cover'][0].originalname,
-      } : null
-      const attachments = req.files['attachments']?.map((file) => ({
-        data: file.filename,
-        mimetype: file.mimetype,
-        originalname: file.originalname
-      })) || []
+      const cover = req.files['cover'] ? req.files['cover'][0] : null
+      const attachments = req.files['attachments'] || []
       const updatedCard = await cardService.updateCard(cardId, title, description, members, dueDate, cover, attachments)
 
       res.status(200).json({

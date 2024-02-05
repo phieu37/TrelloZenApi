@@ -5,13 +5,11 @@ const cardModel = require('../models/cardModel')
 class listService {
   createList = async (boardId, title, position) => {
     try {
-      const newList = new listModel(
-        {
-          title,
-          position,
-          board: boardId
-        }
-      )
+      const newList = new listModel({
+        title,
+        position,
+        board: boardId
+      })
       const savedList = await newList.save()
 
       // Thêm Id của list mới vào mảng lists trong Board
@@ -34,7 +32,8 @@ class listService {
     try {
       const updatedList = await listModel.findByIdAndUpdate(
         listId,
-        { title, position }
+        { title, position },
+        { new: true }
       )
 
       return updatedList
@@ -66,9 +65,15 @@ class listService {
     }
   }
 
-  getListsInBoard = async (boardId) => {
+  getListsInBoard = async (boardId, sortOrder) => {
     try {
-      const lists = await listModel.find({ board: boardId }).sort({ position: -1 })
+      // const lists = await listModel.find({ board: boardId }).sort({ position: -1 })
+      let sortOption = { position: 1 }; // Mặc định sắp xếp từ thấp đến cao
+      if (sortOrder === 'desc') {
+        sortOption = { position: -1 }; // Sắp xếp từ cao đến thấp
+      }
+  
+      const lists = await listModel.find({ board: boardId }).sort(sortOption)
 
       return lists
     } catch (error) {

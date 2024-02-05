@@ -3,7 +3,6 @@ const listService = require('../services/listService')
 class listController {
   createList = async (req, res, next) => {
     try {
-      // const { boardId, title, position } = req.body
       const { boardId } = req.params
       const { title, position } = req.body
       const newList = await listService.createList(boardId, title, position)
@@ -46,7 +45,8 @@ class listController {
   getListsInBoard = async (req, res, next) => {
     try {
       const { boardId } = req.params
-      const lists = await listService.getListsInBoard(boardId)
+      const { sort } = req.query
+      const lists = await listService.getListsInBoard(boardId, sort)
 
       res.status(200).json({
         message: 'Danh sách các list trong board',

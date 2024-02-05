@@ -5,14 +5,14 @@ const jwt = require('jsonwebtoken')
 class userService {
   registerUser = async (username, email, password) => {
     try {
-      const existingUsername = await userModel.findOne({ username });
+      const existingUsername = await userModel.findOne({ username })
       if (existingUsername) {
-        throw new Error('Tên người dùng đã tồn tại');
+        throw new Error('Tên người dùng đã tồn tại')
       }
 
-      const existingEmail = await userModel.findOne({ email });
+      const existingEmail = await userModel.findOne({ email })
       if (existingEmail) {
-        throw new Error('Email đã tồn tại');
+        throw new Error('Email đã tồn tại')
       }
 
       // KT2: tự động tạo muối và băm password

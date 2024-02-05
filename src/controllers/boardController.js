@@ -13,11 +13,7 @@ class boardController {
       //   originalname: req.file.originalname
       // }
 
-      const cover = req.files['cover'] ? {
-        data: req.files['cover'][0].filename,
-        mimetype: req.files['cover'][0].mimetype,
-        originalname: req.files['cover'][0].originalname
-      } : null
+      const cover = req.files['cover'] ? req.files['cover'][0] : null
 
       const boardData = { title, cover }
       const newBoard = await boardService.createBoard(boardData)
@@ -36,11 +32,7 @@ class boardController {
       // const boardId = req.params.id
       const { boardId } = req.params
       const { title } = req.body
-      const cover = req.files['cover'] ? {
-        data: req.files['cover'][0].filename,
-        mimetype: req.files['cover'][0].mimetype,
-        originalname: req.files['cover'][0].originalname
-      } : null
+      const cover = req.files['cover'] ? req.files['cover'][0] : null
       const boardData = { title, cover }
       const updatedBoard = await boardService.updateBoard(boardId, boardData)
 
